@@ -1,1 +1,3 @@
 # Pong
+
+This is a pong game coded in Python. A Windows Installer Package is included in this repository in /dist for Windows users only. 
