@@ -19,6 +19,8 @@ PADDLE_HEIGHT = 10
 PADDLE_OFFSET = 50
 BALL_SIZE = 10
 FPS = 30
+PLAYER_SPEED = 10
+COMP_SPEED = 10
 
 pygame.init()
 
@@ -95,11 +97,11 @@ def checkEdgeCollision(ball):
         return True
     else:
         return False
-    
+
 def getPaddleAngle(ball, paddle):
     portion = ball.x + BALL_SIZE/2 - paddle.x
     ratio = portion/PADDLE_WIDTH
-    angle = 90
+    angle = 90 
     
     if ratio >= 0 and ratio < 0.125:
         angle = 0
@@ -123,14 +125,19 @@ def compPlay(ball, paddlePlayer, paddleComp):
     ## If ball moves towards computer's paddle
     if ballYDirection == 1:
         if ball.x + BALL_SIZE < paddleComp.x + PADDLE_WIDTH/2:
-            paddleComp.x -= 10
+            paddleComp.x -= COMP_SPEED
         elif ball.x + BALL_SIZE > paddleComp.x + PADDLE_WIDTH/2:
-            paddleComp.x += 10
+            paddleComp.x += COMP_SPEED
+        else:
+            paddleComp.x == 0
+    ## If ball moves away computer's paddle
     elif ballYDirection == -1:
         if paddleComp.x < DISPLAY_WIDTH/2:
-            paddleComp.x += 10
+            paddleComp.x += COMP_SPEED
         elif paddleComp.x > DISPLAY_WIDTH/2:
-            paddleComp.x -= 10
+            paddleComp.x -= COMP_SPEED
+        else:
+            paddleComp.x == 0
     return movePaddle(paddleComp, paddleComp.x)
 
 def pauseGame():
@@ -245,9 +252,9 @@ def runGame():
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    paddleDisp = -10                   
+                    paddleDisp = - PLAYER_SPEED              
                 elif event.key == pygame.K_RIGHT:
-                    paddleDisp = 10
+                    paddleDisp = PLAYER_SPEED
                 elif event.key == pygame.K_p:
                     pauseGame()
             if event.type == pygame.KEYUP:
@@ -264,7 +271,7 @@ def runGame():
                 #score += 1
             else:
                 angle = getPaddleAngle(ball, paddleComp)
-
+                
             if angle == 0:
                 ballXDirection = 0
 
